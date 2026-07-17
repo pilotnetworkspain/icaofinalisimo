@@ -230,5 +230,140 @@ body { font-family: Manrope, -apple-system, BlinkMacSystemFont, "Segoe UI", sans
   setInterval(loadComments, 8000);
 })();
 </script>
+
+<!-- ===== PN 2026-07-17: sistema bilingue ES/EN + sincronizacion con pilotnetwork.es ===== -->
+<style>
+  #pnIcaoLang{font-family:Manrope,-apple-system,system-ui,sans-serif}
+  html.pn-lang-managed #pnIcaoLang{display:none!important}
+</style>
+<script>
+/* PN_ICAO_I18N: traduce SOLO la interfaz. No toca nombres de examinadores,
+   aeropuertos, contactos ni comentarios de usuarios. No modifica Supabase. */
+(function(){
+  'use strict';
+  var ALLOWED=['https://www.pilotnetwork.es','https://pilotnetwork.es'];
+  var P=[
+    ['La acreditación de inglés aeronáutico que tu licencia exige. Tres profesionales de confianza te preparan, evalúan y certifican.','The aeronautical English accreditation your licence requires. Three trusted professionals prepare, assess and certify you.'],
+    ['Profesionales<br>colaboradores','Partner<br>professionals'],
+    ['Nivel ICAO<br>máximo','Max ICAO<br>level'],
+    ['Online &amp; presencial','Online &amp; in-person'],
+    ['¿Qué es el ICAO ELP / FCL.055?','What is ICAO ELP / FCL.055?'],
+    ['El nivel de inglés aeronáutico oficial. Obligatorio para volar comercial y monitorizado por todas las autoridades aeronáuticas.','The official aeronautical English level. Mandatory for commercial flying and monitored by every aviation authority.'],
+    ['Niveles 1–6','Levels 1–6'],
+    ['Escala OACI. Operativo a partir del nivel 4. Nivel 6 = experto, sin caducidad.','ICAO scale. Operational from level 4. Level 6 = expert, no expiry.'],
+    ['Validez','Validity'],
+    ['Nivel 4 → 4 años · Nivel 5 → 6 años · Nivel 6 → permanente.','Level 4 → 4 years · Level 5 → 6 years · Level 6 → permanent.'],
+    ['6 áreas evaluadas','6 assessed areas'],
+    ['Pronunciación, estructura, vocabulario, fluidez, comprensión e interacción.','Pronunciation, structure, vocabulary, fluency, comprehension and interaction.'],
+    ['Acreditación oficial','Official accreditation'],
+    ['Examinadores autorizados con certificación reconocida internacionalmente.','Authorised examiners with internationally recognised certification.'],
+    ['— Examinadores colaboradores','— Partner examiners'],
+    ['Elige a tu profesional','Choose your professional'],
+    ['Tres opciones de confianza, todas verificadas por la comunidad de Pilot Network.','Three trusted options, all verified by the Pilot Network community.'],
+    ['Aviation English · Academia','Aviation English · Academy'],
+    ['Examinador EASA Transport Malta y piloto comercial con más de 3 000 horas de vuelo. Preparación personalizada en fraseología aeronáutica y ELP/FCL.055 niveles 4, 5 y 6.','EASA Transport Malta examiner and commercial pilot with over 3,000 flight hours. Personalised preparation in aeronautical phraseology and ELP/FCL.055 levels 4, 5 and 6.'],
+    ['EASA ATPL(A) · +3.000 h de vuelo','EASA ATPL(A) · +3,000 flight hours'],
+    ['Habilitado en CRJ200/1000 y Challenger 604/605 &amp; 350','Type-rated on CRJ200/1000 and Challenger 604/605 &amp; 350'],
+    ['Examinador EASA Transport Malta','EASA Transport Malta examiner'],
+    ['Instructor inicial de Tripulantes de Cabina','Initial Cabin Crew instructor'],
+    ['Graduado en Derecho · Universidad de Barcelona','Law graduate · University of Barcelona'],
+    ['Academia de inglés aeronáutico con más de 15 años de experiencia. Preparación de ICAO ELP/FCL.055, entrevistas con aerolíneas y exámenes internacionales de inglés general.','Aeronautical English academy with over 15 years of experience. Preparation for ICAO ELP/FCL.055, airline interviews and international general English exams.'],
+    ['Evaluadora oficial ICAO ELP / FCL.055','Official ICAO ELP / FCL.055 assessor'],
+    ['Ex-Controladora de tránsito aéreo · 10 años','Former air traffic controller · 10 years'],
+    ['Piloto Privado de Avión','Private Pilot (Aeroplane)'],
+    ['Profesora, traductora e intérprete EN/ES','Teacher, translator and EN/ES interpreter'],
+    ['Especialista en aviación y educadora de inglés con amplia experiencia internacional. Programas a medida para pilotos, TCP y candidatos a aerolíneas.','Aviation specialist and English educator with broad international experience. Tailored programmes for pilots, cabin crew and airline candidates.'],
+    ['Curso intensivo ICAO Nivel 4','ICAO Level 4 intensive course'],
+    ['Entrenamiento ICAO Nivel 5 y 6','ICAO Level 5 and 6 training'],
+    ['Programa Pre Piloto','Pre-Pilot programme'],
+    ['Inglés aeronáutico para Tripulantes de Cabina','Aeronautical English for Cabin Crew'],
+    ['Preparación de entrevistas con aerolíneas','Airline interview preparation'],
+    ['Fraseología','Phraseology'],
+    ['Entrevistas','Interviews'],
+    ['Inglés general','General English'],
+    ['Pre-Piloto','Pre-Pilot'],
+    ['Llamar','Call'],
+    ['Ver dossier completo','View full dossier'],
+    ['Tras las clases recibidas por Iván, me presenté a mis pruebas de ICAO ELP con toda la confianza y formación necesarias y obtuve el <strong>nivel 6 en el primer intento</strong>. Recomendadísimo como profesional además de una gran persona.','After the classes with Iván, I sat my ICAO ELP tests with all the confidence and training needed and achieved <strong>level 6 on the first attempt</strong>. Highly recommended, both as a professional and as a great person.'],
+    ['Comentario verificado · pilotnetwork.es','Verified comment · pilotnetwork.es'],
+    ['— Comunidad','— Community'],
+    ['Deja tu experiencia','Share your experience'],
+    ['Comparte cómo te fue tu prueba ICAO ELP. Se publicará al instante para todos.','Share how your ICAO ELP test went. It will be published instantly for everyone.'],
+    ['Hace 3 meses','3 months ago'],
+    ['Nombre','Name'],
+    ['Profesional valorado','Reviewed professional'],
+    ['Selecciona…','Select…'],
+    ['General / Sin asignar','General / Unassigned'],
+    ['Tu experiencia','Your experience'],
+    ['Enviar comentario','Post comment'],
+    ['Se publicará al instante para todos.','Published instantly for everyone.'],
+    ['Descargar dossier','Download dossier'],
+    ['Abrir en pestaña nueva','Open in new tab'],
+    ['Ahora','Now'],
+    ['Enviando…','Sending…'],
+    ['❌ Completa todos los campos antes de enviar.','❌ Please fill in all fields before submitting.'],
+    ['✅ Comentario publicado al instante. ¡Gracias!','✅ Comment published instantly. Thanks!'],
+    ['❌ Error al enviar. Revisa las políticas de Supabase o prueba de nuevo.','❌ Submission error. Check the Supabase policies or try again.']
+  ];
+  var currentLang='es';
+  function isEmbedded(){try{return window.self!==window.top}catch(e){return true}}
+  function markManaged(){document.documentElement.classList.add('pn-lang-managed')}
+  function buildIndex(){
+    var els=document.querySelectorAll('#pnElp *');
+    for(var i=0;i<els.length;i++){
+      var el=els[i];
+      if(el.dataset.pnK!=null) continue;
+      if(el.children.length>1) continue;
+      var h=el.innerHTML.trim();
+      for(var k=0;k<P.length;k++){ if(P[k][0]===h||P[k][1]===h){ el.dataset.pnK=String(k); break; } }
+    }
+  }
+  var obs=null,pending=false;
+  function obsOn(){ if(!obs) return; var host=document.getElementById('pnElp'); if(host) obs.observe(host,{childList:true,subtree:true,characterData:true}); }
+  function obsOff(){ if(obs) obs.disconnect(); }
+  function applyText(lang){
+    var els=document.querySelectorAll('#pnElp [data-pn-k]');
+    for(var i=0;i<els.length;i++){ var k=+els[i].dataset.pnK; els[i].innerHTML=P[k][lang==='es'?0:1]; }
+    var n=document.querySelector('#pnElp input[name="name"]'); if(n) n.placeholder=(lang==='es'?'Tu nombre':'Your name');
+    var t=document.querySelector('#pnElp textarea[name="text"]'); if(t) t.placeholder=(lang==='es'?'¿Cómo fue tu preparación? ¿Qué nivel obtuviste?':'How was your preparation? What level did you get?');
+  }
+  var btnEs,btnEn;
+  function paint(){ if(!btnEs) return; btnEs.style.background=currentLang==='es'?'#0f172a':'transparent'; btnEs.style.color=currentLang==='es'?'#fff':'#0f172a'; btnEn.style.background=currentLang==='en'?'#0f172a':'transparent'; btnEn.style.color=currentLang==='en'?'#fff':'#0f172a'; }
+  function setLang(lang){
+    if(lang!=='es'&&lang!=='en') return;
+    currentLang=lang; window.pnCurrentLang=lang;
+    document.documentElement.setAttribute('lang',lang);
+    buildIndex(); obsOff(); applyText(lang); obsOn(); paint();
+  }
+  window.pnSetLang=setLang;
+  function buildIsland(){
+    var host=document.getElementById('pnElp'); if(!host||document.getElementById('pnIcaoLang')) return;
+    var isl=document.createElement('div'); isl.id='pnIcaoLang';
+    isl.style.cssText='position:sticky;top:12px;z-index:100;display:flex;justify-content:center;gap:6px;margin:12px auto 0;width:max-content;padding:4px;border:1px solid rgba(15,23,42,.15);border-radius:999px;background:#ffffff;box-shadow:0 6px 20px rgba(15,23,42,.12)';
+    isl.innerHTML='<button type="button" data-l="es" aria-label="Español">ES</button><button type="button" data-l="en" aria-label="English">EN</button>';
+    host.insertBefore(isl,host.firstChild);
+    btnEs=isl.querySelector('[data-l="es"]'); btnEn=isl.querySelector('[data-l="en"]');
+    [btnEs,btnEn].forEach(function(b){ b.style.cssText='min-width:42px;padding:7px 13px;border:0;border-radius:999px;font:700 12px/1 Manrope,sans-serif;letter-spacing:.04em;cursor:pointer;background:transparent;color:#0f172a'; });
+    btnEs.addEventListener('click',function(){ setLang('es'); try{localStorage.setItem('pn_icao_lang','es')}catch(e){} });
+    btnEn.addEventListener('click',function(){ setLang('en'); try{localStorage.setItem('pn_icao_lang','en')}catch(e){} });
+  }
+  function start(){
+    buildIsland();
+    obs=new MutationObserver(function(){ if(currentLang!=='en'||pending) return; pending=true; requestAnimationFrame(function(){ pending=false; buildIndex(); obsOff(); applyText('en'); obsOn(); }); });
+    var q=null; try{q=new URLSearchParams(location.search).get('lang')}catch(e){}
+    var stored=null; try{stored=localStorage.getItem('pn_icao_lang')}catch(e){}
+    var init=(q==='es'||q==='en')?q:((stored==='es'||stored==='en')?stored:'es');
+    setLang(init);
+    if(isEmbedded()&&(q==='es'||q==='en')) markManaged();
+    window.addEventListener('message',function(ev){
+      if(ALLOWED.indexOf(ev.origin)===-1) return;
+      var d=ev.data; if(!d||d.type!=='pn-language'||(d.lang!=='es'&&d.lang!=='en')) return;
+      if(d.lang!==currentLang) setLang(d.lang);
+      if(isEmbedded()) markManaged();
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
+})();
+</script>
 </body>
 </html>
